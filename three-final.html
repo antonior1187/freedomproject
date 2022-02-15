@@ -12,37 +12,64 @@
 		</style>
 	</head>
 	<body>
+		<h4>Use W,A,S,D to Rotate. Click to Reset.</h4>
 		<script src="../three.js"></script>
+		<script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
 		<script>
-		let scene, camera, renderer, cube;
+		let scene, camera, renderer, cube1;
 		function init(){
 			scene = new THREE.Scene();
-		    camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-		    renderer = new THREE.WebGLRenderer({ antialias: true});
-		    renderer.setSize(window.innerWidth,window.innerHeight);
-		    document.body.appendChild(renderer.domElement);
-		    camera.position.z = 5;
-		    const geometry = new THREE.BoxGeometry(2,2,2);
-			const material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+		  camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		  renderer = new THREE.WebGLRenderer({ antialias: true});
+		  renderer.setSize(window.innerWidth,window.innerHeight);
+		  document.body.appendChild(renderer.domElement);
+		  camera.position.z = 5;
+		  var geometry1 = new THREE.BoxGeometry(1,1,1);
+			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
 			//const texture = new THREE.TextureLoader().load('');
-			cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );	
+			cube1 = new THREE.Mesh( geometry1, material1 );
+			scene.add( cube1 );	
 		}
 
 			function animate(){
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
+				// cube.rotation.x += 0.01;
+				// cube.rotation.y += 0.01;
 			}
 		function onWindowResize(){
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
-		    renderer.setSize(window.innerWidth,window.innerHeight);
+		  renderer.setSize(window.innerWidth,window.innerHeight);
 		}
-		window.addEventListener('resize', onWindowResize, false)
+		window.addEventListener('resize', onWindowResize, false);
 		init();
 		animate();
+		document.addEventListener("keypress",function(event){
+                if (event.key == "w"){
+                  cube1.rotation.x -= 0.05;
+                 // cube1.position.y += 0.05;
+                }
+                if (event.key == "a"){
+                  cube1.rotation.y -= 0.05;
+                  //cube1.position.x -= 0.05;
+                }
+                if (event.key == "s"){
+                  cube1.rotation.x += 0.05;
+                  //cube1.position.y -= 0.05;
+                }
+                if (event.key == "d"){
+                  cube1.rotation.y += 0.05;
+                  //cube1.position.x += 0.05;
+                }
+            });
+        document.body.addEventListener("click",function(){
+        	cube1.rotation.x = 0;
+        	cube1.rotation.y = 0;
+        	//cube1.position.x = 0;
+        	//cube1.position.y = 0;
+        });
+        	
       </script>
 	</body>
 </html>
