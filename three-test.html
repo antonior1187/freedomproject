@@ -30,35 +30,129 @@
 			// animate();
 
 			// Lines
-			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
-			const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
-			camera.position.set( 0, 0, 100 );
-			camera.lookAt( 0, 0, 100 );
-			const scene = new THREE.Scene();
-			const material = new THREE.LineBasicMaterial({color : 0xE62100});
-			const points = [];
+			// const renderer = new THREE.WebGLRenderer();
+			// renderer.setSize( window.innerWidth, window.innerHeight );
+			// document.body.appendChild( renderer.domElement );
+			// const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
+			// camera.position.set( 0, 0, 100 );
+			// camera.lookAt( 0, 0, 100 );
+			// const scene = new THREE.Scene();
+			// const material = new THREE.LineBasicMaterial({color : 0xE62100});
+			// const points = [];
 			
-			points.push(new THREE.Vector3(-10,0,0));
-			points.push(new THREE.Vector3(0,10,0));
-			points.push(new THREE.Vector3(0,0,0));
-			points.push(new THREE.Vector3(10, 0, 0));
-			points.push(new THREE.Vector3(0, -10, 0));
-			points.push(new THREE.Vector3(0, 0, 0));
-			points.push(new THREE.Vector3(-10, 0, 0));
-			points.push(new THREE.Vector3(-10, 10, 0));
-			points.push(new THREE.Vector3(0,10,0));
-			points.push(new THREE.Vector3(10,0,0));
-			points.push(new THREE.Vector3(10,-10,0));
-			points.push(new THREE.Vector3(0,-10,0));
-			points.push(new THREE.Vector3(-10,0,0));
-			const geometry = new THREE.BufferGeometry().setFromPoints( points );
-			const line = new THREE.Line( geometry, material );
-			scene.add( line );
-			renderer.render( scene, camera );
-			animate();
+			// points.push(new THREE.Vector3(-10,0,0));
+			// points.push(new THREE.Vector3(0,10,0));
+			// points.push(new THREE.Vector3(0,0,0));
+			// points.push(new THREE.Vector3(10, 0, 0));
+			// points.push(new THREE.Vector3(0, -10, 0));
+			// points.push(new THREE.Vector3(0, 0, 0));
+			// points.push(new THREE.Vector3(-10, 0, 0));
+			// points.push(new THREE.Vector3(-10, 10, 0));
+			// points.push(new THREE.Vector3(0,10,0));
+			// points.push(new THREE.Vector3(10,0,0));
+			// points.push(new THREE.Vector3(10,-10,0));
+			// points.push(new THREE.Vector3(0,-10,0));
+			// points.push(new THREE.Vector3(-10,0,0));
+			// const geometry = new THREE.BufferGeometry().setFromPoints( points );
+			// const line = new THREE.Line( geometry, material );
+			// scene.add( line );
+			// renderer.render( scene, camera );
+			// animate();
+			
+			//Pyramid
+			// const scene = new THREE.Scene();
+			// const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			// const renderer = new THREE.WebGLRenderer();
+			// renderer.setSize( window.innerWidth, window.innerHeight );
+			// document.body.appendChild( renderer.domElement );
+			// const geometry = new THREE.ConeGeometry(3,2,4);
+			// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			// const pyramid = new THREE.Mesh( geometry, material );
+			// scene.add( pyramid );
+			// camera.position.z = 5;
+			// const animate = function () {
+			// 	requestAnimationFrame( animate );
+			// 	renderer.render( scene, camera );
+			// 	pyramid.rotation.x += 0.05;
+			// 	pyramid.rotation.y += 0.05;
+			// };
+			// animate();
+			
+			// Connecting Shapes
+		let scene, camera, renderer, cube1;
+		function init(){
+			scene = new THREE.Scene();
+		    camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		    renderer = new THREE.WebGLRenderer({ antialias: true});
+		    renderer.setSize(window.innerWidth,window.innerHeight);
+			cameraPosition = camera.position;
+			cameraRotation = new THREE.Vector3(camera.rotation._x, camera.rotation._y, camera.rotation._z);
+			newCamera = new THREE.Vector3().addVectors(cameraPosition, cameraRotation);
+			camera.position.set(newCamera.x, newCamera.y, newCamera.z);
+			camera.updateProjectionMatrix();
+		    document.body.appendChild(renderer.domElement);
+		    var geometry1 = new THREE.BoxGeometry(2,2,2);
+			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
+			//const texture = new THREE.TextureLoader().load('');
+			cube1 = new THREE.Mesh( geometry1, material1 );
+			scene.add( cube1 );
+			var geometry2 = new THREE.ConeGeometry(3,2,4);
+			var material2 = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			var pyramid = new THREE.Mesh( geometry2, material2 );
+			
 
+			const group = new THREE.Group();
+			group.add( cube1 );
+			group.add( pyramid );
+
+			scene.add( group );
+			
+		}
+
+
+			function animate(){
+				requestAnimationFrame(animate);
+				renderer.render(scene, camera);
+				// cube.rotation.x += 0.01;
+				// cube.rotation.y += 0.01;
+			}
+		function onWindowResize(){
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+		  renderer.setSize(window.innerWidth,window.innerHeight);
+		}
+		window.addEventListener('resize', onWindowResize, false);
+		init();
+		animate();
+		function reset(){
+		cube1.rotation.x += 50;
+		}
+		reset();
+		document.addEventListener("keypress",function(event){
+                if (event.key == "w"){
+                //  cube1.rotation.x -= 0.05;
+                 // cube1.position.y += 0.05;
+                 camera.position.x += 0.5
+                }
+                if (event.key == "a"){
+                 // cube1.rotation.y -= 0.05;
+                  //cube1.position.x -= 0.05;
+                }
+                if (event.key == "s"){
+                 // cube1.rotation.x += 0.05;
+                  //cube1.position.y -= 0.05;
+                }
+                if (event.key == "d"){
+                 // cube1.rotation.y += 0.05;
+                  //cube1.position.x += 0.05;
+                }
+            });
+        document.body.addEventListener("click",function(){
+        	cube1.rotation.x = 0;
+        	cube1.rotation.y = 0;
+        	//cube1.position.x = 0;
+        	//cube1.position.y = 0;
+        });
 
 		</script>
 	</body>

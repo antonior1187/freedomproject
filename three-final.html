@@ -12,30 +12,67 @@
 		</style>
 	</head>
 	<body>
-		<h4>Use W,A,S,D to Rotate. Click to Reset.</h4>
+		<h4>Use W,A,S,D to Rotate.</h4>
 		<script src="../three.js"></script>
-		<script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
 		<script>
-		let scene, camera, renderer, cube1;
+		let scene, camera, renderer, cube1, pyramid;
+		
 		function init(){
 			scene = new THREE.Scene();
-		  camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 		  renderer = new THREE.WebGLRenderer({ antialias: true});
 		  renderer.setSize(window.innerWidth,window.innerHeight);
 		  document.body.appendChild(renderer.domElement);
 		  camera.position.z = 5;
-		  var geometry1 = new THREE.BoxGeometry(1,1,1);
+		  var geometry1 = new THREE.BoxGeometry(2,2,2);
 			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
 			//const texture = new THREE.TextureLoader().load('');
 			cube1 = new THREE.Mesh( geometry1, material1 );
-			scene.add( cube1 );	
+			//scene.add( cube1 );
+			var geometry2 = new THREE.ConeGeometry(3,2,4);
+			var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+			pyramid = new THREE.Mesh( geometry2, material2 );
+			const geometryP = new THREE.PlaneGeometry( 100, 100 );
+			const materialP = new THREE.MeshBasicMaterial( {color: 0x1386FC , side: THREE.DoubleSide} );
+			const plane = new THREE.Mesh( geometryP, materialP );
+			scene.add( plane );// Add blue plane
+
+			scene.add(pyramid,cube1); // Add pyramid and Cube
+			pyramid.position.y = 2;
+			pyramid.rotation.y += 0.7;
+			camera.position.x = 5;
+			camera.position.z = 500
+			house1 = new house()
 		}
+		class house {
+			constructor(){
+				this.x = Math.floor(Math.random()*(-100-100)+(100));
+				this.y = Math.floor(Math.random()*(-100-100)+(100));
+				console.log(this.x,this.y)
+			}
+			display(){
+				var geometry1 = new THREE.BoxGeometry(2,2,2);
+				var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
+				//const texture = new THREE.TextureLoader().load('');
+				cube = new THREE.Mesh( geometry1, material1 );
+				scene.add(cube);
+				cube.position.x = this.x;
+				cube.position.y = this.y;
+			}
+		}
+		
+
 
 			function animate(){
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 				// cube.rotation.x += 0.01;
 				// cube.rotation.y += 0.01;
+				if(camera.position.z == 0){
+					camera.position.z = 500
+				}
+				camera.position.z -= 1
+			
 			}
 		function onWindowResize(){
 			camera.aspect = window.innerWidth / window.innerHeight;
@@ -45,31 +82,50 @@
 		window.addEventListener('resize', onWindowResize, false);
 		init();
 		animate();
+		
+		// Movement
 		document.addEventListener("keypress",function(event){
                 if (event.key == "w"){
-                  cube1.rotation.x -= 0.05;
+                  // cube1.rotation.x -= 0.05;
+                  // pyramid.rotation.x -= 0.1;
+                  camera.position.y -= 0.5
+                  
                  // cube1.position.y += 0.05;
                 }
                 if (event.key == "a"){
-                  cube1.rotation.y += 0.05;
+                  // cube1.rotation.y -= 0.05;
+                  // pyramid.rotation.y -= 0.05;
                   //cube1.position.x -= 0.05;
+                  camera.position.x += 0.5
                 }
                 if (event.key == "s"){
-                  cube1.rotation.x += 0.05;
+                  // cube1.rotation.x += 0.05;
+                  // pyramid.rotation.x += 0.1;
+                  
                   //cube1.position.y -= 0.05;
+                  camera.position.y += 0.5
                 }
                 if (event.key == "d"){
-                  cube1.rotation.y += 0.05;
+                  // cube1.rotation.y += 0.05;
+                  // pyramid.rotation.y += 0.05;
                   //cube1.position.x += 0.05;
+                  camera.position.x -= 0.5
+                  
                 }
             });
-        document.body.addEventListener("click",function(){
-        	cube1.rotation.x = 0;
-        	cube1.rotation.y = 0;
-        	//cube1.position.x = 0;
-        	//cube1.position.y = 0;
-        });
-        	
+            
+         //Reset
+     //   document.body.addEventListener("click",function(){
+     //   	cube1.rotation.x = 0;
+     //   	cube1.rotation.y = 0;
+     //   	pyramid.rotation.x = 0;
+     //   	pyamid.rotation.y = 0;
+     //   	pyramid.position.y += 2;
+					// pyramid.rotation.y += 0.7;
+     //   	//cube1.position.x = 0;
+     //   	//cube1.position.y = 0;
+     //   });
+
       </script>
 	</body>
 </html>
