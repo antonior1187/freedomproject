@@ -12,19 +12,19 @@
 		</style>
 	</head>
 	<body>
-		<h4>Use W,A,S,D to Rotate.</h4>
-		<script src="three.js"></script>
+		<h4>Use W,A,S,D to Move.</h4>
+		<script src="../three.js"></script>
 		<script>
 		let scene, camera, renderer, cube1, pyramid;
 		
-		function init(){
+		function init(size,size2){
 			scene = new THREE.Scene();
-		  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-		  renderer = new THREE.WebGLRenderer({ antialias: true});
-		  renderer.setSize(window.innerWidth,window.innerHeight);
-		  document.body.appendChild(renderer.domElement);
-		  camera.position.z = 5;
-		  var geometry1 = new THREE.BoxGeometry(2,2,2);
+		    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		    renderer = new THREE.WebGLRenderer({ antialias: true});
+		    renderer.setSize(window.innerWidth,window.innerHeight);
+		    document.body.appendChild(renderer.domElement);
+		    camera.position.z = 5;
+		    var geometry1 = new THREE.BoxGeometry(2,2,2);
 			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
 			//const texture = new THREE.TextureLoader().load('');
 			cube1 = new THREE.Mesh( geometry1, material1 );
@@ -39,31 +39,26 @@
 
 			scene.add(pyramid,cube1); // Add pyramid and Cube
 			pyramid.position.y = 2;
-			pyramid.rotation.y += 0.7;
+			pyramid.rotation.y += 2.7;
 			camera.position.x = 5;
 			camera.position.z = 500
-			house1 = new house()
+			house1 = new house(40,40)
 		}
 		class house {
-			constructor(){
-				this.x = Math.floor(Math.random()*(-100-100)+(100));
-				this.y = Math.floor(Math.random()*(-100-100)+(100));
+			constructor(x,y){
+				this.x = x
+				this.y = y
 				console.log(this.x,this.y)
 			}
 			display(){
-				var geometry1 = new THREE.BoxGeometry(2,2,2);
-				var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
-				//const texture = new THREE.TextureLoader().load('');
-				cube = new THREE.Mesh( geometry1, material1 );
-				scene.add(cube);
-				cube.position.x = this.x;
-				cube.position.y = this.y;
+				init(this.x,this.y);
 			}
 		}
 		
 
 
 			function animate(){
+				house1 = new house(40,40)
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 				// cube.rotation.x += 0.01;
