@@ -16,14 +16,46 @@
 		<script src="three.js"></script>
 		<script>
 		let scene, camera, renderer, cube1, pyramid;
-		
+		var mouse = new THREE.Vector2(), INTERSECTED;
 		function init(size,size2){
 			scene = new THREE.Scene();
 		    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 		    renderer = new THREE.WebGLRenderer({ antialias: true});
 		    renderer.setSize(window.innerWidth,window.innerHeight);
 		    document.body.appendChild(renderer.domElement);
+		    const geometryP = new THREE.PlaneGeometry( 1000, 1000 );
+			const materialP = new THREE.MeshBasicMaterial( {color: 0x1386FC , side: THREE.DoubleSide} );
+			const plane = new THREE.Mesh( geometryP, materialP );
+			scene.add( plane );// Add blue plane
+			
+			const controls = new OrbitControls( camera, renderer.domElement );
+
+			//controls.update() must be called after any manual changes to the camera's transform
+			camera.position.set( 0, 20, 100 );
+			controls.update();
+
 		    camera.position.z = 5;
+		    camera.position.x = 0;
+			camera.position.z = 50
+			plane.position.z -= 100
+			house1 = new house();
+			// house1.display(5,10);
+			// house1.display(1,6);
+			// house1.display(90,10);
+			// house1.display(10,6);
+			// house1.display(50,10);
+			// house1.display(1,60);
+		}
+		class house {
+			constructor(x,y){
+				
+			}
+			display(x,y){
+				shape(x,y);
+			}
+		}
+			function shape(x,y){
+				
 		    var geometry1 = new THREE.BoxGeometry(2,2,2);
 			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
 			//const texture = new THREE.TextureLoader().load('');
@@ -32,41 +64,31 @@
 			var geometry2 = new THREE.ConeGeometry(3,2,4);
 			var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 			pyramid = new THREE.Mesh( geometry2, material2 );
-			const geometryP = new THREE.PlaneGeometry( 100, 100 );
-			const materialP = new THREE.MeshBasicMaterial( {color: 0x1386FC , side: THREE.DoubleSide} );
-			const plane = new THREE.Mesh( geometryP, materialP );
-			scene.add( plane );// Add blue plane
+			
 
 			scene.add(pyramid,cube1); // Add pyramid and Cube
-			pyramid.position.y = 2;
-			pyramid.rotation.y += 2.7;
-			camera.position.x = 5;
-			camera.position.z = 500
-			house1 = new house(40,40);
-		}
-		class house {
-			constructor(x,y){
-				this.x = x;
-				this.y = y;
-				console.log(this.x,this.y);
+			pyramid.position.y = 2+y;
+			pyramid.position.x = x
+			cube1.position.x = x
+			cube1.position.y = y
+			//pyramid.rotation.y += 2.7;
+			//camera.position.x = 0;
+			//camera.position.z = 100
+			//house1 = new house(40,40);
 			}
-			display(){
-				init(this.x,this.y);
-			}
-		}
-		
 
 
 			function animate(){
 				house1 = new house(40,40);
 				requestAnimationFrame(animate);
+				controls.update();
 				renderer.render(scene, camera);
 				// cube.rotation.x += 0.01;
 				// cube.rotation.y += 0.01;
-				if(camera.position.z == 0){
-					camera.position.z = 500;
-				}
-				camera.position.z -= 1;
+				// if(camera.position.z == 0){
+				// 	camera.position.z = 500;
+				// }
+				// camera.position.z -= 1;
 			
 			}
 		function onWindowResize(){
@@ -83,7 +105,8 @@
                 if (event.key == "w"){
                   // cube1.rotation.x -= 0.05;
                   // pyramid.rotation.x -= 0.1;
-                  camera.position.y -= 0.5;
+                  camera.position.z -= 2;
+                  camera.position.x += .5
                   
                  // cube1.position.y += 0.05;
                 }
@@ -91,23 +114,32 @@
                   // cube1.rotation.y -= 0.05;
                   // pyramid.rotation.y -= 0.05;
                   //cube1.position.x -= 0.05;
-                  camera.position.x += 0.5;
+                  camera.position.x -= 0.5;
                 }
                 if (event.key == "s"){
                   // cube1.rotation.x += 0.05;
                   // pyramid.rotation.x += 0.1;
                   
                   //cube1.position.y -= 0.05;
-                  camera.position.y += 0.5;
+                  camera.position.z += 2;
+                   camera.position.x -= 0.5
                 }
                 if (event.key == "d"){
                   // cube1.rotation.y += 0.05;
                   // pyramid.rotation.y += 0.05;
                   //cube1.position.x += 0.05;
-                  camera.position.x -= 0.5
-                  
+                  camera.position.y += 0.5
                 }
             });
+            function onDocMouseClick(event){
+            	//event.preventDefault();
+            	mouse.x = Math.floor((event.clientX/window.innerWidth)*20)//(Math.random()*100)
+            	mouse.y = Math.floor((event.clientY/window.innerWidth)*20)//(Math.random()*100)
+            	console.log(mouse.x,mouse.y)
+            	house1.display(mouse.x,mouse.y)
+            
+            }
+            document.addEventListener('click',onDocMouseClick,false);
             
          //Reset
      //   document.body.addEventListener("click",function(){
