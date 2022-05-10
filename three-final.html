@@ -12,9 +12,11 @@
 		</style>
 	</head>
 	<body>
-		<h4>Use W,A,S,D to Move.</h4>
+		<h4>Drag to Move, Click to make a house. Scroll to Zoom in/out</h4>
 		<script src="three.js"></script>
-		<script>
+		<script type = "module" src = "GLTFLoader.js"></script>
+		<script type = "module" src ="OrbitControls.js"></script>
+		<script type = "module">
 		let scene, camera, renderer, cube1, pyramid;
 		var mouse = new THREE.Vector2(), INTERSECTED;
 		function init(size,size2){
@@ -28,7 +30,7 @@
 			const plane = new THREE.Mesh( geometryP, materialP );
 			scene.add( plane );// Add blue plane
 			
-			const controls = new OrbitControls( camera, renderer.domElement );
+			const controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 			//controls.update() must be called after any manual changes to the camera's transform
 			camera.position.set( 0, 20, 100 );
@@ -38,36 +40,22 @@
 		    camera.position.x = 0;
 			camera.position.z = 50
 			plane.position.z -= 100
-			house1 = new house();
-			// house1.display(5,10);
-			// house1.display(1,6);
-			// house1.display(90,10);
-			// house1.display(10,6);
-			// house1.display(50,10);
-			// house1.display(1,60);
-		}
-		class house {
-			constructor(x,y){
-				
-			}
-			display(x,y){
-				shape(x,y);
-			}
+			shape(20,20)
 		}
 			function shape(x,y){
 				
-		    var geometry1 = new THREE.BoxGeometry(2,2,2);
+		    var geometry1 = new THREE.BoxGeometry(8,8,8);
 			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
 			//const texture = new THREE.TextureLoader().load('');
 			cube1 = new THREE.Mesh( geometry1, material1 );
 			//scene.add( cube1 );
-			var geometry2 = new THREE.ConeGeometry(3,2,4);
+			var geometry2 = new THREE.ConeGeometry(3,2,16);
 			var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 			pyramid = new THREE.Mesh( geometry2, material2 );
 			
 
 			scene.add(pyramid,cube1); // Add pyramid and Cube
-			pyramid.position.y = 2+y;
+			pyramid.position.y = 5+y;
 			pyramid.position.x = x
 			cube1.position.x = x
 			cube1.position.y = y
@@ -79,9 +67,9 @@
 
 
 			function animate(){
-				house1 = new house(40,40);
+				//house1 = new house(0,0);
 				requestAnimationFrame(animate);
-				controls.update();
+				//controls.update();
 				renderer.render(scene, camera);
 				// cube.rotation.x += 0.01;
 				// cube.rotation.y += 0.01;
@@ -133,13 +121,12 @@
             });
             function onDocMouseClick(event){
             	//event.preventDefault();
-            	mouse.x = Math.floor((event.clientX/window.innerWidth)*20)//(Math.random()*100)
-            	mouse.y = Math.floor((event.clientY/window.innerWidth)*20)//(Math.random()*100)
-            	console.log(mouse.x,mouse.y)
-            	house1.display(mouse.x,mouse.y)
+            	mouse.x = (Math.random()*1000)*Math.random(-1,1)
+            	mouse.y = (Math.random()*1000)*Math.random(-1,1)
+            	shape(mouse.x,mouse.y);
             
             }
-            document.addEventListener('click',onDocMouseClick,false);
+            document.addEventListener('click',onDocMouseClick,true);
             
          //Reset
      //   document.body.addEventListener("click",function(){

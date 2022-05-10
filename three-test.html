@@ -14,8 +14,11 @@
 	<body>
 		<h4>Use W,A,S,D to Move.</h4>
 		<script src="three.js"></script>
-		<script>
-		let scene, camera, renderer, cube1, pyramid;
+		<script type = "module" src = "GLTFLoader.js"></script>
+		<script type = "module" src ="OrbitControls.js"></script>
+		
+		<script type = "module">
+		let scene, camera, renderer, cube1, pyramid, house1;
 		var mouse = new THREE.Vector2(), INTERSECTED;
 		function init(size,size2){
 			scene = new THREE.Scene();
@@ -28,7 +31,7 @@
 			const plane = new THREE.Mesh( geometryP, materialP );
 			scene.add( plane );// Add blue plane
 			
-			const controls = new OrbitControls( camera, renderer.domElement );
+			const controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 			//controls.update() must be called after any manual changes to the camera's transform
 			camera.position.set( 0, 20, 100 );
@@ -97,8 +100,6 @@
 		  renderer.setSize(window.innerWidth,window.innerHeight);
 		}
 		window.addEventListener('resize', onWindowResize, false);
-		init();
-		animate();
 		
 		// Movement
 		document.addEventListener("keypress",function(event){
@@ -140,7 +141,10 @@
             
             }
             document.addEventListener('click',onDocMouseClick,false);
-            
+        // init();
+		animate();
+		init();
+		
          //Reset
      //   document.body.addEventListener("click",function(){
      //   	cube1.rotation.x = 0;
