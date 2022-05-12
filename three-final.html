@@ -17,7 +17,7 @@
 		<script type = "module" src = "GLTFLoader.js"></script>
 		<script type = "module" src ="OrbitControls.js"></script>
 		<script type = "module">
-		let scene, camera, renderer, cube1, pyramid;
+		let scene, camera, renderer, cube1, pyramid, texture;
 		var mouse = new THREE.Vector2(), INTERSECTED;
 		function init(size,size2){
 			scene = new THREE.Scene();
@@ -25,10 +25,13 @@
 		    renderer = new THREE.WebGLRenderer({ antialias: true});
 		    renderer.setSize(window.innerWidth,window.innerHeight);
 		    document.body.appendChild(renderer.domElement);
-		    const geometryP = new THREE.PlaneGeometry( 1000, 1000 );
-			const materialP = new THREE.MeshBasicMaterial( {color: 0x1386FC , side: THREE.DoubleSide} );
-			const plane = new THREE.Mesh( geometryP, materialP );
-			scene.add( plane );// Add blue plane
+		 //   const geometryP = new THREE.PlaneGeometry( 1000, 1000 );
+			// const materialP = new THREE.MeshBasicMaterial( {color: 0x1386FC , side: THREE.DoubleSide} );
+			// const plane = new THREE.Mesh( geometryP, materialP );
+			// scene.add( plane );// Add blue plane
+			var imageLoader = new THREE.TextureLoader();
+			const texture = imageLoader.load('wood.jpeg');
+            scene.background = texture;
 			
 			const controls = new THREE.OrbitControls( camera, renderer.domElement );
 
@@ -39,17 +42,18 @@
 		    camera.position.z = 5;
 		    camera.position.x = 0;
 			camera.position.z = 50
-			plane.position.z -= 100
-			shape(20,20)
+			// plane.position.z -= 100
+			shape(0,0)
 		}
 			function shape(x,y){
 				
 		    var geometry1 = new THREE.BoxGeometry(8,8,8);
-			var material1 = new THREE.MeshBasicMaterial( { color: 0xD4920B } );
-			//const texture = new THREE.TextureLoader().load('');
-			cube1 = new THREE.Mesh( geometry1, material1 );
+			
+			const texture = new THREE.TextureLoader().load('cyberBackground.jpg');
+			var material1 = new THREE.MeshBasicMaterial('0');
+			cube1 = new THREE.Mesh( geometry1,material1);
 			//scene.add( cube1 );
-			var geometry2 = new THREE.ConeGeometry(3,2,16);
+			var geometry2 = new THREE.ConeGeometry(5,2,4);
 			var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 			pyramid = new THREE.Mesh( geometry2, material2 );
 			
@@ -126,7 +130,7 @@
             	shape(mouse.x,mouse.y);
             
             }
-            document.addEventListener('click',onDocMouseClick,true);
+           // document.addEventListener('click',onDocMouseClick,true);
             
          //Reset
      //   document.body.addEventListener("click",function(){
