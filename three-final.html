@@ -42,9 +42,9 @@
 		    camera.position.x = 0;
 			camera.position.z = 50
 			// plane.position.z -= 100
-			shape(0,0)
+			shape(0,0,0)
 		}
-			function shape(x,y){
+			function shape(x,y,z){
 				
 		    var geometry1 = new THREE.BoxGeometry(8,8,8);
 			const loader = new THREE.CubeTextureLoader()
@@ -66,9 +66,11 @@
 			scene.add(pyramid,cube1); // Add pyramid and Cube
 			pyramid.position.y = 5+y;
 			pyramid.position.x = x
+			pyramid.position.z = z
 			cube1.position.x = x
 			cube1.position.y = y
 			cube1.rotation.y = 0.78912747639
+			cube1.position.z = z
 			//pyramid.rotation.y += 2.7;
 			//camera.position.x = 0;
 			//camera.position.z = 100
@@ -133,7 +135,8 @@
             	//event.preventDefault();
             	mouse.x = Math.floor(Math.random() * (100 - (-100)) - 100)
             	mouse.y = Math.floor(Math.random() * (100 - (-100)) - 100)
-            	shape(mouse.x,mouse.y);
+            	mouse.z = Math.floor(Math.random() * (100 - (-100)) - 100)
+            	shape(mouse.x,mouse.y,mouse.z);
             
             }
           document.addEventListener('click',onDocMouseClick,true);
