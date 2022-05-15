@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>My first three.js app</title>
+		<title>House Maker</title>
 		<style>
 			body { margin: 0; }
 			canvas{
@@ -47,11 +47,15 @@
 			function shape(x,y){
 				
 		    var geometry1 = new THREE.BoxGeometry(8,8,8);
-			const loader = new THREE.TextureLoader()
+			const loader = new THREE.CubeTextureLoader()
+			loader.setPath('textures/')
 			//const texture = new THREE.TextureLoader().load('cyberBackground.jpg');
-			var material1 = new THREE.MeshBasicMaterial({
-				map: loader.load('textures/wood.jpeg')
-				});
+			var textureCube = loader.load([
+				'fronthouse.jpg','fronthouse.jpg',
+				'fronthouse.jpg','fronthouse.jpg',
+				'fronthouse.jpg','fronthouse.jpg'
+				])
+			var material1 = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: textureCube})
 			cube1 = new THREE.Mesh( geometry1,material1);
 			//scene.add( cube1 );
 			var geometry2 = new THREE.ConeGeometry(6,2,4);
@@ -127,8 +131,8 @@
             });
             function onDocMouseClick(event){
             	//event.preventDefault();
-            	mouse.x = (Math.random()*1000)*Math.random(-1,1)
-            	mouse.y = (Math.random()*1000)*Math.random(-1,1)
+            	mouse.x = Math.floor(Math.random() * (100 - (-100)) - 100)
+            	mouse.y = Math.floor(Math.random() * (100 - (-100)) - 100)
             	shape(mouse.x,mouse.y);
             
             }
