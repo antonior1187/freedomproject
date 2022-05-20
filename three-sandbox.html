@@ -22,10 +22,13 @@
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			const geometry = new THREE.BoxGeometry();
+			const geometry = new THREE.BoxGeometry(3,3,3);
 			const material = new THREE.MeshBasicMaterial( { color: 991143 } );
 			const cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
+			const geometry2 = new THREE.ConeGeometry(6,2,4)
+			const material2 = new THREE.MeshBasicMaterial ({color: 223300})
+			const pyramid = new THREE.Mesh(geometry2,material2)
+			scene.add( cube,pyramid );
 			const controls = new THREE.OrbitControls( camera, renderer.domElement );
 
             //controls.update() must be called after any manual changes to the camera's transform
